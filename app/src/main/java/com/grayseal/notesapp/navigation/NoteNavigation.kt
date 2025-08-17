@@ -37,13 +37,15 @@ fun NoteNavigation() {
             )
         ) { backStackEntry ->
             val noteId = backStackEntry.arguments?.getString("noteId") ?: ""
-            val title = backStackEntry.arguments?.getString("title") ?: ""
-            val content = backStackEntry.arguments?.getString("content") ?: ""
-            val mood = backStackEntry.arguments?.getString("mood") ?: "neutral"
+            val title = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("title") ?: "", "UTF-8")
+            val content = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("content") ?: "", "UTF-8")
+            val mood = java.net.URLDecoder.decode(backStackEntry.arguments?.getString("mood") ?: "neutral", "UTF-8")
             
             val noteToEdit = Note(
+                id = java.util.UUID.fromString(noteId),
                 title = title,
-                note = content
+                note = content,
+                mood = mood
             )
             NoteScreen(
                 navController = navController, 

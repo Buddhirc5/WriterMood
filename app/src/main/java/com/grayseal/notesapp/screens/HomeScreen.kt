@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.SentimentSatisfied
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Edit
 import com.grayseal.notesapp.util.MoodUtils.getMoodColor
 import com.grayseal.notesapp.util.MoodUtils.capitalize
@@ -48,9 +49,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.grayseal.notesapp.model.Note
 import com.grayseal.notesapp.navigation.NoteScreens
+import com.grayseal.notesapp.data.UserPreferences
 import com.grayseal.notesapp.ui.theme.sonoFamily
 import com.grayseal.notesapp.ui.theme.ThemeManager
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.TextButton
@@ -58,11 +61,17 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(navController: NavController, noteViewModel: NoteViewModel) {
-    val currentTheme by remember { mutableStateOf(ThemeManager.currentTheme) }
+    val currentTheme by remember { derivedStateOf { ThemeManager.currentTheme } }
+    val context = LocalContext.current
+    val userPreferences = remember { UserPreferences(context) }
+    val scope = rememberCoroutineScope()
+    
+    val userName by userPreferences.userName.collectAsState(initial = null)
     
     Scaffold(
         floatingActionButton = { FloatingAddNoteButton(navController = navController) },
@@ -76,15 +85,28 @@ fun HomeScreen(navController: NavController, noteViewModel: NoteViewModel) {
                             animationSpec = tween(1000)
                         )
                     ) {
-                        Text(
-                            "WriterMood",
-                            style = TextStyle(
-                                color = Color.White,
-                                fontSize = 20.sp,
-                                fontFamily = sonoFamily,
-                                fontWeight = FontWeight.Bold
+                        Column {
+                            Text(
+                                "WriterMood",
+                                style = TextStyle(
+                                    color = Color.White,
+                                    fontSize = 20.sp,
+                                    fontFamily = sonoFamily,
+                                    fontWeight = FontWeight.Bold
+                                )
                             )
-                        )
+                            if (userName != null) {
+                                Text(
+                                    "Welcome, $userName!",
+                                    style = TextStyle(
+                                        color = Color.White.copy(alpha = 0.8f),
+                                        fontSize = 12.sp,
+                                        fontFamily = sonoFamily,
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                )
+                            }
+                        }
                     }
                 },
                 actions = {
@@ -116,6 +138,23 @@ fun HomeScreen(navController: NavController, noteViewModel: NoteViewModel) {
                             Icon(
                                 imageVector = Icons.Filled.Psychology,
                                 contentDescription = "Mood Dashboard",
+                                tint = Color.White
+                            )
+                        }
+                    }
+                    
+                    AnimatedVisibility(
+                        visible = true,
+                        enter = fadeIn(animationSpec = tween(1000, delayMillis = 700)) + scaleIn(
+                            animationSpec = tween(1000, delayMillis = 700)
+                        )
+                    ) {
+                        IconButton(
+                            onClick = { navController.navigate(NoteScreens.WelcomeScreen.name) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Person,
+                                contentDescription = "Edit Profile",
                                 tint = Color.White
                             )
                         }
@@ -173,16 +212,20 @@ fun HomeContent(
     navController: NavController
 ) {
 
-    Column(modifier = Modifier.padding(20.dp)) {
-        LazyColumn {
-            items(notes) {
-                NoteCard(
-                    note = it, 
-                    onDeleteClick = { onRemoveNote(it) },
-                    onEditClick = { onEditNote(it) },
-                    navController = navController
-                )
-            }
+    LazyColumn(
+        modifier = Modifier.padding(20.dp),
+        contentPadding = PaddingValues(bottom = 100.dp)
+    ) {
+        items(
+            items = notes,
+            key = { note -> note.id.toString() }
+        ) { note ->
+            NoteCard(
+                note = note, 
+                onDeleteClick = { onRemoveNote(note) },
+                onEditClick = { onEditNote(note) },
+                navController = navController
+            )
         }
     }
 }
@@ -197,6 +240,10 @@ fun NoteCard(
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showEditDialog by remember { mutableStateOf(false) }
+    
+    // Optimize mood color calculation
+    val moodColor by remember(note.mood) { derivedStateOf { getMoodColor(note.mood) } }
+    val capitalizedMood by remember(note.mood) { derivedStateOf { note.mood.capitalize() } }
     
     // Delete confirmation dialog
     if (showDeleteDialog) {
@@ -268,14 +315,14 @@ fun NoteCard(
                 Icon(
                     imageVector = Icons.Filled.SentimentSatisfied,
                     contentDescription = "Mood",
-                    tint = getMoodColor(note.mood),
+                    tint = moodColor,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = note.mood.capitalize(),
+                    text = capitalizedMood,
                     fontSize = 12.sp,
-                    color = getMoodColor(note.mood),
+                    color = moodColor,
                     fontFamily = sonoFamily
                 )
             }
@@ -332,9 +379,9 @@ fun Avatar() {
 fun WritersInspirationSection() {
     val motivationalQuote = remember { mutableStateOf("") }
     
-    // Rotating motivational quotes
-    LaunchedEffect(Unit) {
-        val quotes = listOf(
+    // Pre-define quotes to avoid recreation
+    val quotes = remember {
+        listOf(
             "Every word you write is a step toward your masterpiece.",
             "Your emotions fuel your creativity - embrace them.",
             "Writing is the art of turning thoughts into magic.",
@@ -344,7 +391,10 @@ fun WritersInspirationSection() {
             "Your words have the power to change the world.",
             "Embrace your writing journey, one mood at a time."
         )
-        
+    }
+    
+    // Rotating motivational quotes
+    LaunchedEffect(Unit) {
         while (true) {
             motivationalQuote.value = quotes.random()
             delay(8000) // Change quote every 8 seconds

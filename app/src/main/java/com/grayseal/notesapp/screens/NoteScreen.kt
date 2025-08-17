@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.grayseal.notesapp.model.Note
 import com.grayseal.notesapp.navigation.NoteScreens
+import com.grayseal.notesapp.ui.components.WordCountDisplay
 import com.grayseal.notesapp.ui.theme.sonoFamily
 import com.grayseal.notesapp.util.getCurrentDate
 import com.grayseal.notesapp.ui.theme.ThemeManager
@@ -113,15 +114,15 @@ fun NoteArea(
     var title by remember {
         mutableStateOf(noteToEdit?.title ?: "")
     }
-    var detectedMood by remember {
-        mutableStateOf(noteToEdit?.mood ?: "neutral")
-    }
-    
-    // Update detected mood when note changes
-    LaunchedEffect(note) {
-        if (note.isNotEmpty()) {
-            detectedMood = com.grayseal.notesapp.data.MoodDetectionService.detectMood(note)
-        }
+    // Optimize mood detection with derivedStateOf
+    val detectedMood by remember(note) { 
+        derivedStateOf { 
+            if (note.isNotEmpty()) {
+                com.grayseal.notesapp.data.MoodDetectionService.detectMood(note)
+            } else {
+                noteToEdit?.mood ?: "neutral"
+            }
+        } 
     }
     
     if (editMode) {
@@ -129,7 +130,8 @@ fun NoteArea(
             navController = navController, 
             title, 
             note, 
-            onSaveNote = { 
+            onSaveNote = { newNote -> 
+                // For update mode, we need to preserve the original note's ID
                 val updatedNote = noteToEdit?.copy(
                     title = title,
                     note = note,
@@ -151,6 +153,12 @@ fun NoteArea(
     }
     
     Note(title = title, note = note, onTitleChange = { title = it }, onNoteChange = { note = it })
+    
+    // Word count display
+    if (note.isNotEmpty()) {
+        WordCountDisplay(text = note)
+    }
+    
     MoodIndicator(detectedMood = detectedMood)
 }
 
@@ -286,12 +294,10 @@ fun SaveButton(
         TextButton(
             onClick = {
                 if (title.isNotEmpty() && note.isNotEmpty()) {
+                    // For update mode, we need to pass the note with proper ID
+                    // The onSaveNote callback should handle the Note creation with ID
                     onSaveNote(Note(title = title, note = note))
                     Toast.makeText(context, if (buttonText == "Update") "Note Updated" else "Note Saved", Toast.LENGTH_SHORT).show()
-                    /*Save data
-                    title = ""
-                    note = ""
-                    */
                     navController.navigate(route = NoteScreens.HomeScreen.name, )
                 } else {
                     openDialog = true

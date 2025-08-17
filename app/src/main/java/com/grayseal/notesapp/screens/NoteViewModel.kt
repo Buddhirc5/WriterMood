@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.grayseal.notesapp.data.MoodCount
 import com.grayseal.notesapp.model.Note
 import com.grayseal.notesapp.repository.NoteRepository
+import com.grayseal.notesapp.util.PerformanceUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -36,12 +37,20 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository):
     }
 
     fun addNote(note: Note) = viewModelScope.launch { 
-        repository.addNoteWithMoodDetection(note)
+        PerformanceUtils.executeWithLogging("Add Note") {
+            repository.addNoteWithMoodDetection(note)
+        }
         // loadMoodStats()
     }
-    fun updateNote(note: Note) = viewModelScope.launch { repository.updateNote(note) }
+    fun updateNote(note: Note) = viewModelScope.launch { 
+        PerformanceUtils.executeWithLogging("Update Note") {
+            repository.updateNote(note)
+        }
+    }
     fun deleteNote(note: Note) = viewModelScope.launch { 
-        repository.deleteNote(note)
+        PerformanceUtils.executeWithLogging("Delete Note") {
+            repository.deleteNote(note)
+        }
         // loadMoodStats()
     }
     fun deleteAllNotes() = viewModelScope.launch { repository.deleteAllNotes() }

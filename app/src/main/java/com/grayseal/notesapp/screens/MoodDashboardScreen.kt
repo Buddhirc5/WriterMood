@@ -21,6 +21,9 @@ import androidx.compose.ui.unit.sp
 import com.grayseal.notesapp.data.MoodCount
 import com.grayseal.notesapp.model.Note
 import com.grayseal.notesapp.ui.theme.*
+import com.grayseal.notesapp.ui.components.MoodTrendChart
+import com.grayseal.notesapp.ui.components.MoodPieChart
+import com.grayseal.notesapp.ui.components.MoodBarChart
 import com.grayseal.notesapp.util.MoodUtils.getMoodColor
 import com.grayseal.notesapp.util.MoodUtils.capitalize
 import com.grayseal.notesapp.ui.theme.ThemeManager
@@ -115,6 +118,18 @@ fun MoodDashboardScreen(
             
             item {
                 MoodSummaryCard(moodStats)
+            }
+            
+            item {
+                MoodTrendChart(notes = notesList)
+            }
+            
+            item {
+                MoodPieChart(moodStats = moodStats)
+            }
+            
+            item {
+                MoodBarChart(moodStats = moodStats)
             }
             
             item {
