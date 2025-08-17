@@ -29,6 +29,7 @@ import com.grayseal.notesapp.navigation.NoteScreens
 import com.grayseal.notesapp.ui.theme.sonoFamily
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import com.grayseal.notesapp.util.HapticFeedback
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
@@ -166,11 +167,16 @@ fun StartButton(
     isEnabled: Boolean,
     buttonText: String = "Start"
 ) {
+    val context = LocalContext.current
+    
     ElevatedButton(
         modifier = Modifier
             .width(130.dp)
             .height(50.dp),
-        onClick = onSaveName,
+        onClick = { 
+            HapticFeedback.success(context)
+            onSaveName()
+        },
         enabled = isEnabled,
         shape = RoundedCornerShape(20.dp),
         contentPadding = PaddingValues(5.dp),

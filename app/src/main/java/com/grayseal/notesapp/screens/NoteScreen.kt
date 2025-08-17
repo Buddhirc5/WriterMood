@@ -34,6 +34,7 @@ import com.grayseal.notesapp.ui.components.WordCountDisplay
 import com.grayseal.notesapp.ui.theme.sonoFamily
 import com.grayseal.notesapp.util.getCurrentDate
 import com.grayseal.notesapp.ui.theme.ThemeManager
+import com.grayseal.notesapp.util.HapticFeedback
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -296,10 +297,12 @@ fun SaveButton(
                 if (title.isNotEmpty() && note.isNotEmpty()) {
                     // For update mode, we need to pass the note with proper ID
                     // The onSaveNote callback should handle the Note creation with ID
+                    HapticFeedback.success(context)
                     onSaveNote(Note(title = title, note = note))
                     Toast.makeText(context, if (buttonText == "Update") "Note Updated" else "Note Saved", Toast.LENGTH_SHORT).show()
                     navController.navigate(route = NoteScreens.HomeScreen.name, )
                 } else {
+                    HapticFeedback.error(context)
                     openDialog = true
                 }
             },
@@ -319,6 +322,7 @@ fun SaveButton(
 
 @Composable
 fun AlertDialog(openDialog: Boolean, onDismiss: () -> Unit) {
+    val context = LocalContext.current
     if (openDialog) {
         AlertDialog(
             /* Dismiss the dialog when the user clicks outside the dialog or on the back
@@ -353,7 +357,12 @@ fun AlertDialog(openDialog: Boolean, onDismiss: () -> Unit) {
                 )
             },
             confirmButton = {
-                TextButton(onClick = onDismiss) {
+                TextButton(
+                    onClick = { 
+                        HapticFeedback.lightTap(context)
+                        onDismiss()
+                    }
+                ) {
                                     Text(
                     "OK",
                     style = (TextStyle(color = ThemeManager.getPrimaryColor(), fontSize = 20.sp)),

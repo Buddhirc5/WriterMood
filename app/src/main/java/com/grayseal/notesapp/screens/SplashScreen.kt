@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +27,7 @@ import androidx.navigation.NavController
 import com.grayseal.notesapp.R
 import com.grayseal.notesapp.navigation.NoteScreens
 import com.grayseal.notesapp.ui.theme.sonoFamily
+import com.grayseal.notesapp.util.HapticFeedback
 import kotlinx.coroutines.delay
 
 @Composable
@@ -156,7 +158,8 @@ fun SplashContent(navController: NavController) {
         
         Spacer(Modifier.height(40.dp))
         
-        // Apple-style button animation
+                // Apple-style button animation
+        val context = LocalContext.current
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -169,7 +172,10 @@ fun SplashContent(navController: NavController) {
                     .alpha(buttonAlpha)
             ) {
                 NextIconButton(
-                    onClick = { navController.navigate(route = NoteScreens.HomeScreen.name) }
+                    onClick = { 
+                        HapticFeedback.mediumTap(context)
+                        navController.navigate(route = NoteScreens.HomeScreen.name) 
+                    }
                 )
             }
         }

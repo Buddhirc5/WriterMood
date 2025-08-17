@@ -22,11 +22,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.grayseal.notesapp.navigation.NoteScreens
 import com.grayseal.notesapp.ui.theme.*
 import com.grayseal.notesapp.ui.theme.AppTheme
 import com.grayseal.notesapp.ui.theme.ThemeManager
+import com.grayseal.notesapp.util.HapticFeedback
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -88,6 +90,7 @@ fun ThemeChangerScreen(navController: NavController) {
             }
             
             // Theme Grid
+            val context = LocalContext.current
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(16.dp),
@@ -99,6 +102,7 @@ fun ThemeChangerScreen(navController: NavController) {
                         theme = theme,
                         isSelected = theme == currentTheme,
                         onClick = {
+                            HapticFeedback.mediumTap(context)
                             ThemeManager.setTheme(theme)
                         }
                     )

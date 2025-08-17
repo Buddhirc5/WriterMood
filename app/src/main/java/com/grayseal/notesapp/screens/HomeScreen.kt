@@ -62,6 +62,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import com.grayseal.notesapp.util.HapticFeedback
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -353,13 +354,16 @@ fun NoteCard(
 
 @Composable
 fun FloatingAddNoteButton(navController: NavController) {
+    val context = LocalContext.current
+    
     FloatingActionButton(
         modifier = Modifier.padding(bottom = 30.dp),
-        onClick = { navController.navigate(route = NoteScreens.NoteScreen.name) },
+        onClick = { 
+            HapticFeedback.mediumTap(context)
+            navController.navigate(route = NoteScreens.NoteScreen.name) 
+        },
         containerColor = ThemeManager.getPrimaryColor()
-    )
-
-    {
+    ) {
         Icon(
             imageVector = Icons.Sharp.Edit,
             contentDescription = "Add Note",
@@ -469,6 +473,7 @@ fun DeleteConfirmationDialog(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    val context = LocalContext.current
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -504,7 +509,10 @@ fun DeleteConfirmationDialog(
         },
         confirmButton = {
             TextButton(
-                onClick = onConfirm,
+                onClick = { 
+                    HapticFeedback.error(context)
+                    onConfirm()
+                },
                 colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)
             ) {
                 Text(
@@ -518,7 +526,12 @@ fun DeleteConfirmationDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
+            TextButton(
+                onClick = { 
+                    HapticFeedback.lightTap(context)
+                    onDismiss()
+                }
+            ) {
                 Text(
                     "Cancel",
                     style = TextStyle(
