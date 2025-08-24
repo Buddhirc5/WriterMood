@@ -32,11 +32,11 @@ cd writermood
 
 ## 📊 GitHub Stats
 
-![GitHub stars](https://img.shields.io/github/stars/Buddhirc5/writermood?style=social)
-![GitHub forks](https://img.shields.io/github/forks/Buddhirc5/writermood?style=social)
-![GitHub issues](https://img.shields.io/github/issues/Buddhirc5/writermood)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/Buddhirc5/writermood)
-![GitHub license](https://img.shields.io/github/license/Buddhirc5/writermood)
+![GitHub stars](https://img.shields.io/github/stars/Buddhirc5/notes-app-main?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Buddhirc5/notes-app-main?style=social)
+![GitHub issues](https://img.shields.io/github/issues/Buddhirc5/notes-app-main)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Buddhirc5/notes-app-main)
+![GitHub license](https://img.shields.io/github/license/Buddhirc5/notes-app-main)
 ![Android](https://img.shields.io/badge/Android-API%2026+-green.svg)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.8+-blue.svg)
 
@@ -365,13 +365,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/Buddhirc5/writermood/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Buddhirc5/writermood/discussions)
-- **Wiki**: [Project Wiki](https://github.com/Buddhirc5/writermood/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Buddhirc5/notes-app-main/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Buddhirc5/notes-app-main/discussions)
+- **Wiki**: [Project Wiki](https://github.com/Buddhirc5/notes-app-main/wiki)
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/writermood&type=Date)](https://star-history.com/#Buddhirc5/writermood&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Buddhirc5/notes-app-main&type=Date)](https://star-history.com/#Buddhirc5/notes-app-main&Date)
 
 ---
 
