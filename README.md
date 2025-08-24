@@ -1,6 +1,37 @@
 # WriterMood App 📝✨
 
+[![Android CI](https://github.com/buddhisandeepa/writermood/actions/workflows/android.yml/badge.svg)](https://github.com/buddhisandeepa/writermood/actions/workflows/android.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.8+-blue.svg)](https://kotlinlang.org/)
+[![Compose](https://img.shields.io/badge/Compose-1.3+-orange.svg)](https://developer.android.com/jetpack/compose)
+[![API](https://img.shields.io/badge/API-26+-green.svg)](https://developer.android.com/about/versions/oreo)
+
 A sophisticated note-taking application built with modern Android development practices, featuring intelligent mood detection and analytics. WriterMood combines the power of Jetpack Compose with advanced sentiment analysis to help users track their emotional journey through writing.
+
+[![WriterMood Demo](https://img.shields.io/badge/Demo-Watch%20Demo-red.svg)](https://github.com/buddhisandeepa/writermood#demo)
+[![Download APK](https://img.shields.io/badge/Download-APK-brightgreen.svg)](https://github.com/buddhisandeepa/writermood/releases/latest)
+
+## 📋 Table of Contents
+
+- [Features](#-features)
+- [Demo](#-demo)
+- [Quick Start](#-quick-start)
+- [Architecture](#️-architecture)
+- [Screens & Components](#-screens--components)
+- [Data Layer](#️-data-layer)
+- [Mood Detection System](#-mood-detection-system)
+- [UI/UX Components](#-uiux-components)
+- [Technical Stack](#-technical-stack)
+- [Performance Optimizations](#-performance-optimizations)
+- [Security & Privacy](#-security--privacy)
+- [Analytics & Insights](#-analytics--insights)
+- [Development Setup](#️-development-setup)
+- [Testing](#-testing)
+- [Future Enhancements](#-future-enhancements)
+- [Contributing](#-contributing)
+- [License](#-license)
+- [Project Stats](#-project-stats)
+- [Support](#-support)
 
 ## 🚀 Features
 
@@ -269,17 +300,88 @@ android {
 - **Accessibility**: Enhanced accessibility features
 - **Internationalization**: Multi-language support
 
+## 📱 Demo
+
+![WriterMood Demo](images/demo.gif)
+
+*Note: Demo GIF will be added once the app is fully functional*
+
+## 🚀 Quick Start
+
+### Download
+- **Latest Release**: [Download APK](https://github.com/buddhisandeepa/writermood/releases/latest)
+- **Direct APK**: [app-debug.apk](app/build/outputs/apk/debug/app-debug.apk)
+
+### Installation
+1. Enable "Install from Unknown Sources" in your Android settings
+2. Download the APK file
+3. Install and enjoy WriterMood!
+
+## 📁 Repository Structure
+
+```
+writermood/
+├── app/
+│   ├── src/main/java/com/grayseal/notesapp/
+│   │   ├── data/           # Database, API services, preferences
+│   │   ├── di/             # Dependency injection modules
+│   │   ├── model/          # Data models and entities
+│   │   ├── navigation/     # Navigation components
+│   │   ├── repository/     # Repository layer
+│   │   ├── screens/        # UI screens and ViewModels
+│   │   ├── ui/             # UI components and theme
+│   │   ├── util/           # Utility classes
+│   │   ├── MainActivity.kt # Main activity
+│   │   └── NoteApplication.kt # Application class
+│   ├── src/main/res/       # Resources (layouts, drawables, etc.)
+│   └── build.gradle        # App-level build configuration
+├── .github/                # GitHub-specific files
+│   ├── ISSUE_TEMPLATE/     # Issue templates
+│   ├── workflows/          # GitHub Actions
+│   ├── CONTRIBUTING.md     # Contributing guidelines
+│   ├── CODE_OF_CONDUCT.md  # Code of conduct
+│   └── FUNDING.yml         # Funding configuration
+├── gradle/                 # Gradle wrapper
+├── build.gradle           # Project-level build configuration
+├── README.md              # This file
+└── LICENSE                # MIT License
+```
+
 ## 🤝 Contributing
 
-We welcome contributions! Please see our contributing guidelines for details on:
+We welcome contributions! Please see our [Contributing Guidelines](/.github/CONTRIBUTING.md) for details on:
 - Code style and standards
 - Pull request process
 - Issue reporting
 - Development setup
 
+### How to Contribute
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Issue Templates
+- 🐛 [Bug Report](/.github/ISSUE_TEMPLATE/bug_report.md)
+- 💡 [Feature Request](/.github/ISSUE_TEMPLATE/feature_request.md)
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📊 Project Stats
+
+![GitHub stars](https://img.shields.io/github/stars/buddhisandeepa/writermood?style=social)
+![GitHub forks](https://img.shields.io/github/forks/buddhisandeepa/writermood?style=social)
+![GitHub issues](https://img.shields.io/github/issues/buddhisandeepa/writermood)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/buddhisandeepa/writermood)
+![GitHub contributors](https://img.shields.io/github/contributors/buddhisandeepa/writermood)
+![GitHub last commit](https://img.shields.io/github/last-commit/buddhisandeepa/writermood)
+
+## 🌟 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=buddhisandeepa/writermood&type=Date)](https://star-history.com/#buddhisandeepa/writermood&Date)
 
 ## 🙏 Acknowledgments
 
@@ -288,6 +390,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Material Design**: For design system inspiration
 - **Android Community**: For continuous support and feedback
 
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/buddhisandeepa/writermood/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/buddhisandeepa/writermood/discussions)
+- **Email**: [Contact Developer](mailto:your-email@example.com)
+
+## 💰 Support the Project
+
+If you find WriterMood helpful, please consider supporting the project:
+
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-Support%20Me-red.svg)](https://github.com/sponsors/buddhisandeepa)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Support%20Me-yellow.svg)](https://buymeacoffee.com/buddhisandeepa)
+
 ---
 
 **WriterMood** - Where every word tells a story, and every story reveals a mood. 📝✨
+
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://github.com/buddhisandeepa">Buddhi Sandeepa</a></sub>
+</div>
