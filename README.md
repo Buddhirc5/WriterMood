@@ -13,10 +13,10 @@ A sophisticated note-taking application built with modern Android development pr
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/Buddhirc5/notes-app-main.git
+git clone https://github.com/Buddhirc5/WriterMood.git
 
 # Open in Android Studio
-cd writermood
+cd WriterMood
 
 # Build and run
 ./gradlew build
@@ -32,11 +32,11 @@ cd writermood
 
 ## 📊 GitHub Stats
 
-![GitHub stars](https://img.shields.io/github/stars/Buddhirc5/notes-app-main?style=social)
-![GitHub forks](https://img.shields.io/github/forks/Buddhirc5/notes-app-main?style=social)
-![GitHub issues](https://img.shields.io/github/issues/Buddhirc5/notes-app-main)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/Buddhirc5/notes-app-main)
-![GitHub license](https://img.shields.io/github/license/Buddhirc5/notes-app-main)
+![GitHub stars](https://img.shields.io/github/stars/Buddhirc5/WriterMood?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Buddhirc5/WriterMood?style=social)
+![GitHub issues](https://img.shields.io/github/issues/Buddhirc5/WriterMood)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Buddhirc5/WriterMood)
+![GitHub license](https://img.shields.io/github/license/Buddhirc5/WriterMood)
 ![Android](https://img.shields.io/badge/Android-API%2026+-green.svg)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.8+-blue.svg)
 
@@ -315,7 +315,7 @@ We welcome contributions! Please follow these steps:
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/Buddhirc5/notes-app-main.git
+   git clone https://github.com/Buddhirc5/WriterMood.git
    ```
 
 2. **Create a feature branch**
@@ -365,13 +365,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/Buddhirc5/notes-app-main/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Buddhirc5/notes-app-main/discussions)
-- **Wiki**: [Project Wiki](https://github.com/Buddhirc5/notes-app-main/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Buddhirc5/WriterMood/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Buddhirc5/WriterMood/discussions)
+- **Wiki**: [Project Wiki](https://github.com/Buddhirc5/WriterMood/wiki)
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Buddhirc5/notes-app-main&type=Date)](https://star-history.com/#Buddhirc5/notes-app-main&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Buddhirc5/WriterMood&type=Date)](https://star-history.com/#Buddhirc5/WriterMood&Date)
 
 ---
 
