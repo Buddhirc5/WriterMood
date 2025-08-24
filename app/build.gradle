@@ -27,6 +27,12 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Optimizations for low-end devices
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            pseudoLocalesEnabled false
+            zipAlignEnabled true
         }
         debug {
             minifyEnabled false

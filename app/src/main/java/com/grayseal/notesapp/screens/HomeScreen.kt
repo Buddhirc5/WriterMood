@@ -12,6 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -63,6 +64,7 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.grayseal.notesapp.util.HapticFeedback
+import com.grayseal.notesapp.util.PerformanceOptimizer
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -73,6 +75,13 @@ fun HomeScreen(navController: NavController, noteViewModel: NoteViewModel) {
     val scope = rememberCoroutineScope()
     
     val userName by userPreferences.userName.collectAsState(initial = null)
+    
+    // Performance optimization for low-end devices
+    LaunchedEffect(Unit) {
+        if (PerformanceOptimizer.isLowMemoryDevice(context)) {
+            PerformanceOptimizer.optimizeForLowEndDevice()
+        }
+    }
     
     Scaffold(
         floatingActionButton = { FloatingAddNoteButton(navController = navController) },
@@ -213,10 +222,10 @@ fun HomeContent(
     navController: NavController
 ) {
 
-    LazyColumn(
-        modifier = Modifier.padding(20.dp),
-        contentPadding = PaddingValues(bottom = 100.dp)
-    ) {
+            LazyColumn(
+            modifier = Modifier.padding(20.dp),
+            contentPadding = PaddingValues(bottom = 100.dp)
+        ) {
         items(
             items = notes,
             key = { note -> note.id.toString() }

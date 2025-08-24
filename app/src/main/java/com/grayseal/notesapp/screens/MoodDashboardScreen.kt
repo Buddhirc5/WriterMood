@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import com.grayseal.notesapp.data.MoodCount
 import com.grayseal.notesapp.model.Note
 import com.grayseal.notesapp.ui.theme.*
@@ -27,6 +29,7 @@ import com.grayseal.notesapp.ui.components.MoodBarChart
 import com.grayseal.notesapp.util.MoodUtils.getMoodColor
 import com.grayseal.notesapp.util.MoodUtils.capitalize
 import com.grayseal.notesapp.ui.theme.ThemeManager
+import com.grayseal.notesapp.util.PerformanceOptimizer
 import kotlinx.coroutines.delay
 
 @Composable
@@ -34,9 +37,17 @@ fun MoodDashboardScreen(
     viewModel: NoteViewModel,
     onNavigateToHome: () -> Unit
 ) {
+    val context = LocalContext.current
     val notesList by viewModel.noteList.collectAsState()
     val moodStats = remember { mutableStateListOf<MoodCount>() }
     val motivationalQuote = remember { mutableStateOf("") }
+    
+    // Performance optimization for low-end devices
+    LaunchedEffect(Unit) {
+        if (PerformanceOptimizer.isLowMemoryDevice(context)) {
+            PerformanceOptimizer.optimizeForLowEndDevice()
+        }
+    }
     
     // Generate real mood stats from actual notes
     LaunchedEffect(notesList) {

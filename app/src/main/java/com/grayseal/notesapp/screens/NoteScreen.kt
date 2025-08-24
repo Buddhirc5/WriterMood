@@ -35,17 +35,26 @@ import com.grayseal.notesapp.ui.theme.sonoFamily
 import com.grayseal.notesapp.util.getCurrentDate
 import com.grayseal.notesapp.ui.theme.ThemeManager
 import com.grayseal.notesapp.util.HapticFeedback
+import com.grayseal.notesapp.util.PerformanceOptimizer
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Composable
 fun NoteScreen(
-    navController: NavController, 
+    navController: NavController,
     noteViewModel: NoteViewModel,
     editMode: Boolean = false,
     noteToEdit: Note? = null
 ) {
+    val context = LocalContext.current
+    
+    // Performance optimization for low-end devices
+    LaunchedEffect(Unit) {
+        if (PerformanceOptimizer.isLowMemoryDevice(context)) {
+            PerformanceOptimizer.optimizeForLowEndDevice()
+        }
+    }
     NoteContent(
         navController = navController, 
         noteViewModel = noteViewModel,

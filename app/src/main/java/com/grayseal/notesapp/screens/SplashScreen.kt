@@ -28,6 +28,7 @@ import com.grayseal.notesapp.R
 import com.grayseal.notesapp.navigation.NoteScreens
 import com.grayseal.notesapp.ui.theme.sonoFamily
 import com.grayseal.notesapp.util.HapticFeedback
+import com.grayseal.notesapp.util.PerformanceOptimizer
 import kotlinx.coroutines.delay
 
 @Composable
@@ -38,10 +39,18 @@ fun SplashScreen(navController: NavController) {
 
 @Composable
 fun SplashContent(navController: NavController) {
+    val context = LocalContext.current
     var showImage by remember { mutableStateOf(false) }
     var showTitle by remember { mutableStateOf(false) }
     var showSubtitle by remember { mutableStateOf(false) }
     var showButton by remember { mutableStateOf(false) }
+    
+    // Performance optimization for low-end devices
+    LaunchedEffect(Unit) {
+        if (PerformanceOptimizer.isLowMemoryDevice(context)) {
+            PerformanceOptimizer.optimizeForLowEndDevice()
+        }
+    }
     
     // Apple-style staggered animation timing
     LaunchedEffect(Unit) {
@@ -60,7 +69,7 @@ fun SplashContent(navController: NavController) {
         targetValue = if (showImage) 1f else 0.8f,
         animationSpec = tween(
             durationMillis = 800,
-            easing = EaseOutBack
+            easing = FastOutSlowInEasing
         )
     )
     
@@ -68,7 +77,7 @@ fun SplashContent(navController: NavController) {
         targetValue = if (showImage) 1f else 0f,
         animationSpec = tween(
             durationMillis = 600,
-            easing = EaseInOut
+            easing = LinearEasing
         )
     )
     
@@ -77,7 +86,7 @@ fun SplashContent(navController: NavController) {
         targetValue = if (showTitle) 1f else 0.9f,
         animationSpec = tween(
             durationMillis = 600,
-            easing = EaseOutBack
+            easing = FastOutSlowInEasing
         )
     )
     
@@ -85,7 +94,7 @@ fun SplashContent(navController: NavController) {
         targetValue = if (showTitle) 1f else 0f,
         animationSpec = tween(
             durationMillis = 500,
-            easing = EaseInOut
+            easing = LinearEasing
         )
     )
     
@@ -93,7 +102,7 @@ fun SplashContent(navController: NavController) {
         targetValue = if (showSubtitle) 1f else 0f,
         animationSpec = tween(
             durationMillis = 400,
-            easing = EaseInOut
+            easing = LinearEasing
         )
     )
     
@@ -101,7 +110,7 @@ fun SplashContent(navController: NavController) {
         targetValue = if (showButton) 1f else 0.8f,
         animationSpec = tween(
             durationMillis = 500,
-            easing = EaseOutBack
+            easing = FastOutSlowInEasing
         )
     )
     
@@ -109,7 +118,7 @@ fun SplashContent(navController: NavController) {
         targetValue = if (showButton) 1f else 0f,
         animationSpec = tween(
             durationMillis = 400,
-            easing = EaseInOut
+            easing = LinearEasing
         )
     )
     

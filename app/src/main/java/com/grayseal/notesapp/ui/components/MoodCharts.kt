@@ -36,7 +36,7 @@ fun MoodTrendChart(
     val recentNotes = notes.takeLast(7) // Last 7 notes for trend
     val animatedProgress by animateFloatAsState(
         targetValue = 1f,
-        animationSpec = tween(1500, easing = EaseOutCubic)
+        animationSpec = tween(1500, easing = FastOutSlowInEasing)
     )
 
     Card(
@@ -151,7 +151,7 @@ fun MoodPieChart(
     val totalNotes = moodStats.sumOf { it.count }
     val animatedProgress by animateFloatAsState(
         targetValue = 1f,
-        animationSpec = tween(1000, easing = EaseOutCubic)
+        animationSpec = tween(1000, easing = FastOutSlowInEasing)
     )
 
     Card(
@@ -269,7 +269,7 @@ fun MoodBarChart(
     val maxCount = moodStats.maxOfOrNull { it.count } ?: 1
     val animatedProgress by animateFloatAsState(
         targetValue = 1f,
-        animationSpec = tween(1200, easing = EaseOutCubic)
+        animationSpec = tween(1200, easing = FastOutSlowInEasing)
     )
 
     Card(
