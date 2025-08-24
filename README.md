@@ -363,15 +363,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Material Design**: For design system inspiration
 - **Android Community**: For continuous support and feedback
 
-## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/Buddhirc5/WriterMood/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Buddhirc5/WriterMood/discussions)
-- **Wiki**: [Project Wiki](https://github.com/Buddhirc5/WriterMood/wiki)
 
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Buddhirc5/WriterMood&type=Date)](https://star-history.com/#Buddhirc5/WriterMood&Date)
 
 ---
 
