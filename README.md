@@ -32,11 +32,11 @@ cd writermood
 
 ## 📊 GitHub Stats
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/writermood?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/writermood?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/writermood)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/writermood)
-![GitHub license](https://img.shields.io/github/license/yourusername/writermood)
+![GitHub stars](https://img.shields.io/github/stars/Buddhirc5/writermood?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Buddhirc5/writermood?style=social)
+![GitHub issues](https://img.shields.io/github/issues/Buddhirc5/writermood)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Buddhirc5/writermood)
+![GitHub license](https://img.shields.io/github/license/Buddhirc5/writermood)
 ![Android](https://img.shields.io/badge/Android-API%2026+-green.svg)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.8+-blue.svg)
 
@@ -315,7 +315,7 @@ We welcome contributions! Please follow these steps:
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/yourusername/writermood.git
+   git clone https://github.com/Buddhirc5/notes-app-main.git
    ```
 
 2. **Create a feature branch**
@@ -365,16 +365,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/writermood/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/writermood/discussions)
-- **Wiki**: [Project Wiki](https://github.com/yourusername/writermood/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Buddhirc5/writermood/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Buddhirc5/writermood/discussions)
+- **Wiki**: [Project Wiki](https://github.com/Buddhirc5/writermood/wiki)
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/writermood&type=Date)](https://star-history.com/#yourusername/writermood&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/writermood&type=Date)](https://star-history.com/#Buddhirc5/writermood&Date)
 
 ---
 
 **WriterMood** - Where every word tells a story, and every story reveals a mood. 📝✨
 
-**Made with ❤️ by [Buddhi Sandeepa](https://github.com/yourusername)**
+**Made with ❤️ by [Buddhi Sandeepa](https://github.com/Buddhirc5)**
