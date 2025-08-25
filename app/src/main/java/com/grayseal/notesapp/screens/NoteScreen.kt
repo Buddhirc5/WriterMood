@@ -1,6 +1,15 @@
 package com.grayseal.notesapp.screens
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -16,6 +25,7 @@ import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +37,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.grayseal.notesapp.model.Note
 import com.grayseal.notesapp.navigation.NoteScreens
@@ -181,6 +192,64 @@ fun Note(
     onNoteChange: (String) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
+    var isRecording by remember { mutableStateOf(false) }
+
+    val speechRecognizer = remember {
+        SpeechRecognizer.createSpeechRecognizer(context)
+    }
+
+    val speechRecognizerIntent = remember {
+        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            speechRecognizer.startListening(speechRecognizerIntent)
+            isRecording = true
+            HapticFeedback.mediumTap(context)
+        } else {
+            Toast.makeText(context, "Microphone permission denied", Toast.LENGTH_SHORT).show()
+            HapticFeedback.error(context)
+        }
+    }
+
+    DisposableEffect(Unit) {
+        val listener = object : RecognitionListener {
+            override fun onResults(results: Bundle?) {
+                val data = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                data?.firstOrNull()?.let { result ->
+                    val newText = if (note.isEmpty()) result else "$note $result"
+                    onNoteChange(newText)
+                }
+                isRecording = false
+                HapticFeedback.lightTap(context)
+            }
+
+            override fun onError(error: Int) {
+                isRecording = false
+                HapticFeedback.error(context)
+                Toast.makeText(context, "Speech recognition error", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onReadyForSpeech(params: Bundle?) {}
+            override fun onBeginningOfSpeech() {}
+            override fun onRmsChanged(rmsdB: Float) {}
+            override fun onBufferReceived(buffer: ByteArray?) {}
+            override fun onEndOfSpeech() { isRecording = false }
+            override fun onPartialResults(partialResults: Bundle?) {}
+            override fun onEvent(eventType: Int, params: Bundle?) {}
+        }
+        speechRecognizer.setRecognitionListener(listener)
+        onDispose {
+            speechRecognizer.destroy()
+        }
+    }
 
     /*Date Row*/
     Row(
@@ -239,10 +308,13 @@ fun Note(
     }
 
     /*Note Description Row*/
-    Row(horizontalArrangement = Arrangement.Start) {
+    Row(
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.Bottom
+    ) {
         TextField(
             modifier = Modifier
-                .fillMaxWidth(),
+                .weight(1f),
             value = note,
             onValueChange = onNoteChange,
             placeholder = {
@@ -276,6 +348,34 @@ fun Note(
                 cursorColor = Color(0xFF4c6569),
                 backgroundColor = MaterialTheme.colors.background,
             )
+        )
+        IconButton(onClick = {
+            if (isRecording) {
+                speechRecognizer.stopListening()
+                isRecording = false
+            } else {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                    speechRecognizer.startListening(speechRecognizerIntent)
+                    isRecording = true
+                    HapticFeedback.mediumTap(context)
+                } else {
+                    permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                }
+            }
+        }) {
+            Icon(
+                imageVector = if (isRecording) Icons.Outlined.Mic else Icons.Outlined.MicNone,
+                contentDescription = "Record",
+                tint = if (isRecording) Color.Red else ThemeManager.getPrimaryColor()
+            )
+        }
+    }
+
+    if (isRecording) {
+        LinearProgressIndicator(
+            modifier = Modifier
+                .fillMaxWidth(),
+            color = ThemeManager.getPrimaryColor()
         )
     }
 }
