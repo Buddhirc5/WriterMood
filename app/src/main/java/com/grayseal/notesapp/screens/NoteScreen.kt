@@ -118,21 +118,15 @@ fun NoteArea(
     editMode: Boolean = false,
     noteToEdit: Note? = null
 ) {
-    var note by remember {
-        mutableStateOf(noteToEdit?.note ?: "")
-    }
-    var title by remember {
-        mutableStateOf(noteToEdit?.title ?: "")
-    }
-    // Optimize mood detection with derivedStateOf
-    val detectedMood by remember(note) { 
-        derivedStateOf { 
-            if (note.isNotEmpty()) {
-                com.grayseal.notesapp.data.MoodDetectionService.detectMood(note)
-            } else {
-                noteToEdit?.mood ?: "neutral"
-            }
-        } 
+    var note by remember { mutableStateOf(noteToEdit?.note ?: "") }
+    var title by remember { mutableStateOf(noteToEdit?.title ?: "") }
+
+    val detectedMood by noteViewModel.detectedMood.collectAsState()
+
+    LaunchedEffect(note) {
+        if (note.isNotEmpty()) {
+            noteViewModel.detectMood(note)
+        }
     }
     
     if (editMode) {

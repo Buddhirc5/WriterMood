@@ -5,6 +5,18 @@ plugins {
     id 'com.google.dagger.hilt.android'
 }
 
+import java.util.Properties
+import java.io.FileInputStream
+
+def getApiKey() {
+    def Properties properties = new Properties()
+    def File localPropertiesFile = rootProject.file('local.properties')
+    if (localPropertiesFile.exists()) {
+        properties.load(new FileInputStream(localPropertiesFile))
+    }
+    return properties.getProperty('HUGGING_FACE_API_KEY', '')
+}
+
 android {
     namespace 'com.grayseal.notesapp'
     compileSdk 33
@@ -20,6 +32,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "HUGGING_FACE_API_KEY", '"' + getApiKey() + '"'
     }
 
     buildTypes {
