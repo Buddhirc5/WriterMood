@@ -18,7 +18,10 @@ import javax.inject.Inject
 class NoteViewModel @Inject constructor(private val repository: NoteRepository): ViewModel() {
     private val _noteList = MutableStateFlow<List<Note>>(emptyList())
     val noteList = _noteList.asStateFlow()
-    
+
+    private val _detectedMood = MutableStateFlow("neutral")
+    val detectedMood = _detectedMood.asStateFlow()
+
     // private val _moodStats = MutableStateFlow<List<MoodCount>>(emptyList())
     // val moodStats = _moodStats.asStateFlow()
 
@@ -55,6 +58,10 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository):
     }
     fun deleteAllNotes() = viewModelScope.launch { repository.deleteAllNotes() }
     fun getAllNotes() = viewModelScope.launch { repository.getAllNotes() }
+
+    fun detectMood(text: String) = viewModelScope.launch {
+        _detectedMood.value = repository.detectMood(text)
+    }
     
     // private fun loadMoodStats() = viewModelScope.launch(Dispatchers.IO) {
     //     _moodStats.value = repository.getNotesByMood()
