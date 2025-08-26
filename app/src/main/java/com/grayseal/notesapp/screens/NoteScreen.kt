@@ -2,6 +2,7 @@ package com.grayseal.notesapp.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -9,6 +10,7 @@ import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.filled.SentimentSatisfied
+import androidx.compose.material.icons.filled.Mic
 import com.grayseal.notesapp.util.MoodUtils.getMoodColor
 import com.grayseal.notesapp.util.MoodUtils.capitalize
 import androidx.compose.material3.ButtonDefaults
@@ -36,6 +38,7 @@ import com.grayseal.notesapp.util.getCurrentDate
 import com.grayseal.notesapp.ui.theme.ThemeManager
 import com.grayseal.notesapp.util.HapticFeedback
 import com.grayseal.notesapp.util.PerformanceOptimizer
+import com.grayseal.notesapp.util.VoiceTyping
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -238,11 +241,19 @@ fun Note(
         )
     }
 
-    /*Note Description Row*/
-    Row(horizontalArrangement = Arrangement.Start) {
+    /*Note Description Row with Voice Typing*/
+    val context = LocalContext.current
+    val voiceTyping = remember { VoiceTyping(context) }
+    val isListening by voiceTyping.isListening.collectAsState()
+    
+    Row(
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.Top
+    ) {
         TextField(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .weight(1f),
             value = note,
             onValueChange = onNoteChange,
             placeholder = {
@@ -269,14 +280,56 @@ fun Note(
                 keyboardController?.hide()
             },
             colors = TextFieldDefaults.textFieldColors(
-                textColor = Color.LightGray,
+                textColor = ThemeManager.getTextColor(),
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                cursorColor = Color(0xFF4c6569),
+                cursorColor = ThemeManager.getPrimaryColor(),
                 backgroundColor = MaterialTheme.colors.background,
             )
         )
+        
+        // Voice typing button
+        IconButton(
+            onClick = {
+                HapticFeedback.mediumTap(context)
+                if (isListening) {
+                    voiceTyping.stopListening()
+                } else {
+                    voiceTyping.startListening { recognizedText ->
+                        onNoteChange(note + (if (note.isNotEmpty() && !note.endsWith(" ")) " " else "") + recognizedText)
+                    }
+                }
+            },
+            modifier = Modifier
+                .padding(start = 8.dp, top = 8.dp)
+                .size(48.dp)
+        ) {
+            Icon(
+                imageVector = if (isListening) Icons.Filled.Mic else Icons.Outlined.Mic,
+                contentDescription = if (isListening) "Stop voice typing" else "Start voice typing",
+                tint = if (isListening) Color.Red else ThemeManager.getPrimaryColor(),
+                modifier = Modifier.size(24.dp)
+            )
+        }
+    }
+    
+    // Voice typing status indicator
+    if (isListening) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Listening... Speak now",
+                color = ThemeManager.getPrimaryColor(),
+                fontSize = 14.sp,
+                fontFamily = sonoFamily,
+                fontWeight = FontWeight.Medium
+            )
+        }
     }
 }
 
